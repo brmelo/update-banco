@@ -13,6 +13,7 @@ export class ContaComponent implements OnInit {
 
   formulario: FormGroup;
   contas: Conta[] = [];
+  colunas = ['nome', 'cpf', 'saldo'];
 
   constructor(
     private service: ContaService,
@@ -20,16 +21,30 @@ export class ContaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-this.formulario = this.formb.group({
-   nome: ['', Validators.required],
-    cpf: ['', Validators.required],
-  saldo: ['', Validators.required]
-})
+    this.montarFormulario();
+    this.listarContas();
 
   }
 
-  submit(){
+  montarFormulario(){
+    this.formulario = this.formb.group({
+      nome: [],
+      cpf: ['', Validators.required],
+      saldo: ['', Validators.required]
+    })
+  }
+
+  listarContas() {
+    this.service.listar().subscribe(resposta => {
+      this.contas = resposta;
+    })
+  }
+
+  submit() {
+    //const erroCpf = this.formulario.controls.cpf.errors.required;
+    //const erroSaldo = this.formulario.controls.saldo.errors.required;
+    const isValid = this.formulario.valid;
+
     const formValues = this.formulario.value;
     const conta: Conta = new Conta(formValues.nome, formValues.cpf, formValues.saldo);
 

@@ -17,7 +17,11 @@ export class ContaService {
   ) { }
 
 salvar(conta: Conta) : Observable<Conta>{
-  return this.http.post<Conta>(this.url, conta)
+  return this.http.post<Conta>(this.url, conta);
+}
+
+listar() : Observable<Conta[]>{
+  return this.http.get<any>(this.url);
 }
 
 }
