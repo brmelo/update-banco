@@ -1,0 +1,28 @@
+<mat-toolbar color="primary">VirtualBank</mat-toolbar>
+
+<form [formGroup]="formulario" (ngSubmit)="submit()">
+    <div class="col-md-3">
+        <mat-form-field>
+            <mat-label>Nome</mat-label>
+            <input formControlName="nome" matInput placeholder="Digite o Nome" />
+        </mat-form-field>
+    </div>
+
+    <div class="col-md-3">
+        <mat-form-field>
+            <mat-label>CPF</mat-label>
+            <input formControlName="cpf" matInput placeholder="Digite o CPF" />
+        </mat-form-field>
+    </div>
+
+    <div class="col-md-3">
+        <mat-form-field>
+            <mat-label>Valor de Entrada R$</mat-label>
+            <input type="number" formControlName="saldo" matInput placeholder="Digite o Valor" />
+        </mat-form-field>
+    </div>
+
+    <div class="col-md-3">
+        <button mat-button color="primary">salvar</button>
+    </div>
+</form>
