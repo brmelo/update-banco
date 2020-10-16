@@ -3,6 +3,7 @@ import { Conta } from './conta';
 import { ContaService } from '../conta.service';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-conta',
@@ -13,11 +14,12 @@ export class ContaComponent implements OnInit {
 
   formulario: FormGroup;
   contas: Conta[] = [];
-  colunas = ['nome', 'cpf', 'saldo'];
+  colunas = ['nome', 'cpf', 'conta', 'saldo'];
 
   constructor(
     private service: ContaService,
-    private formb: FormBuilder
+    private formb: FormBuilder,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -41,16 +43,15 @@ export class ContaComponent implements OnInit {
   }
 
   submit() {
-    //const erroCpf = this.formulario.controls.cpf.errors.required;
-    //const erroSaldo = this.formulario.controls.saldo.errors.required;
-    const isValid = this.formulario.valid;
-
     const formValues = this.formulario.value;
     const conta: Conta = new Conta(formValues.nome, formValues.cpf, formValues.saldo);
 
     this.service.salvar(conta).subscribe(resposta => {
-      this.contas.push(resposta);
-      console.log(this.contas);
+      this.listarContas();
+      this.snackBar.open('Conta cadastrada', resposta.conta.toString() , {duration: 5000})
+      this.formulario.reset();
+      //let lista: Conta[] = [...this.contas, resposta]
+      //this.contas = lista;
     })
   }
 

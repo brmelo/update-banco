@@ -13,6 +13,10 @@
                     <th mat-header-cell *matHeaderCellDef> CPF </th>
                     <td mat-cell *matCellDef="let conta"> {{conta.cpf}} </td>
                 </ng-container>
+                <ng-container matColumnDef="conta">
+                    <th mat-header-cell *matHeaderCellDef> Nº CONTA </th>
+                    <td mat-cell *matCellDef="let conta"> {{conta.conta}} </td>
+                </ng-container>
                 <ng-container matColumnDef="saldo">
                     <th mat-header-cell *matHeaderCellDef> SALDO R$ </th>
                     <td mat-cell *matCellDef="let conta"> {{conta.saldo}} </td>
@@ -24,33 +28,34 @@
     </mat-tab>
     <mat-tab>
         <ng-template mat-tab-label><mat-icon>person_add</mat-icon>Adicionar</ng-template>
-        <mat-card class="half-width">
+        <mat-card>
             <mat-card-title><mat-icon>person_add</mat-icon>&nbsp;Nova Conta</mat-card-title>
             <form [formGroup]="formulario" (ngSubmit)="submit()">
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <mat-label>Nome</mat-label>
-                        <input formControlName="nome" matInput placeholder="Digite o Nome" />
-                    </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>Nome</mat-label>
+                    <input formControlName="nome" matInput placeholder="Digite o Nome" />
+                </mat-form-field>
+                
+                <mat-form-field class="full-width">
+                    <mat-label>CPF</mat-label>
+                    <input formControlName="cpf" matInput placeholder="Digite o CPF" maxlength="11"/>
+                </mat-form-field>    
+                <div *ngIf="formulario.controls.cpf.errors && !formulario.controls.cpf.pristine">
+                    <div *ngIf="formulario.controls.cpf.errors.required">CPF é obrigatório</div>
                 </div>
             
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <mat-label>CPF</mat-label>
-                        <input formControlName="cpf" matInput placeholder="Digite o CPF" />
-                    </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>Valor de Entrada R$</mat-label>
+                    <input type="number" formControlName="saldo" matInput placeholder="Digite o Valor" />
+                </mat-form-field>
+                <div *ngIf="formulario.controls.saldo.errors && !formulario.controls.saldo.pristine">
+                    <div *ngIf="formulario.controls.saldo.errors.required">O valor de entrada é brigatório</div>
                 </div>
-            
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <mat-label>Valor de Entrada R$</mat-label>
-                        <input type="number" formControlName="saldo" matInput placeholder="Digite o Valor" />
-                    </mat-form-field>
-                </div>
-            
-                <div class="col-md-3">
-                    <button [disabled]="!formulario.valid" mat-button color="primary"><mat-icon>done</mat-icon> Salvar</button>
-                </div>
+
+                <br />
+
+                <button mat-raised-button [disabled]="!formulario.valid" mat-button color="primary"><mat-icon>done</mat-icon> Salvar</button>
+
             </form>
         </mat-card>
     </mat-tab>
